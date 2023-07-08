@@ -9,19 +9,16 @@ while True:
         case 'add':
             todo = input('Enter a todo: ') + "\n"
 
-            file = open('files/todos.txt', 'r')
-            todos = file.readlines()
-            file.close()
+            with open('files/todos.txt', 'r') as file:
+                todos = file.readlines()
 
             todos.append(todo)
 
-            file = open('files/todos.txt', 'w')
-            file.writelines(todos)
-            file.close()
+            with open('files/todos.txt', 'w') as file:
+                file.writelines(todos)
         case 'show' | 'display':
-            file = open('files/todos.txt', 'r')
-            todos = file.readlines()
-            file.close()
+            with open('files/todos.txt', 'r') as file:
+                todos = file.readlines()
 
             # inline loop
             # new_todos = [item.strip('\n') for item in todos]
@@ -31,28 +28,31 @@ while True:
                 row = f'{i + 1}-{todo.title()}'
                 print(row)
         case 'edit':
-            file = open('files/todos.txt', 'r')
             number = int(input('Number of todo to edit: '))
             number = number - 1
-            new_todo = input('Enter new todo: ') + '\n'
-            todos[number] = new_todo
+
+            with open('files/todos.txt', 'r') as file:
+                todos = file.readlines()
+
+            new_todo = input('Enter new todo: ')
+            todos[number] = new_todo + '\n'
+
+            with open('files/todos.txt', 'w') as file:
+                file.writelines(todos)
         case 'complete':
             number = int(input('Number of the todo to complete: '))
 
-            file = open('files/todos.txt', 'r')
-            todos = file.readlines()
-            file.close()
-
+            with open('files/todos.txt', 'r') as file:
+                todos = file.readlines()
+            todo_to_remove = todos[number - 1].strip('\n')
             todos.pop(number - 1)
-            file = open('files/todos.txt', 'w')
-            file.writelines(todos)
-            file.close()
+            with open('files/todos.txt', 'w') as file:
+                file.writelines(todos)
+
+            print(f'Todo {todo_to_remove} was removed from the list.')
         case 'exit':
             break
         case _:
             print('Hey, you entered an unknown command')
 
 print('Bye')
-
-hey = f'My first task is: {todos[0]}'
-print(hey)
