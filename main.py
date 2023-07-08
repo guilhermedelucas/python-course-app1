@@ -5,16 +5,29 @@ while True:
 
     match user_action.strip():
         case 'add':
-            todo = input('Enter a todo: ')
+            todo = input('Enter a todo: ') + "\n"
+
+            file = open('files/todos.txt', 'r')
+            todos = file.readlines()
+            file.close()
+
             todos.append(todo)
+
+            file = open('files/todos.txt', 'w')
+            file.writelines(todos)
+            file.close()
         case 'show' | 'display':
+            file = open('files/todos.txt', 'r')
+            todos = file.readlines()
+            file.close()
             for i, todo in enumerate(todos):
                 print(f'{i + 1}-{todo.title()}')
             print()
         case 'edit':
+            file = open('files/todos.txt', 'r')
             number = int(input('Number of todo to edit: '))
             number = number - 1
-            new_todo = input('Enter new todo: ')
+            new_todo = input('Enter new todo: ') + '\n'
             todos[number] = new_todo
         case 'complete':
             number = int(input('Number of the todo to complete: '))
