@@ -4,8 +4,10 @@ import PySimpleGUI as sg
 label = sg.Text('Type in a to-do')
 input_box = sg.InputText(tooltip="Enter todo", key="todo")
 add_button = sg.Button('Add')
-list_box = sg.Listbox(values=get_todos(), key="todos",
-                      enable_events=True, size=(45, 10))
+list_box = sg.Listbox(values=[i.strip('\n') for i in get_todos()],
+                      key="todos",
+                      enable_events=True,
+                      size=(45, 10))
 edit_button = sg.Button('Edit')
 
 window = sg.Window('My To-Do App',
@@ -22,18 +24,18 @@ while True:
             new_todo = values['todo'] + '\n'
             todos.append(new_todo)
             write_todos(todos)
-            window['todos'].update(values=todos)
+            window['todos'].update(values=[i.strip('\n') for i in todos])
         case 'Edit':
-            todo_to_edit = values['todos'][0]
+            todo_to_edit = values['todos'][0] + '\n'
             new_todo = values['todo']
 
             todos = get_todos()
             index = todos.index(todo_to_edit)
-            todos[index] = new_todo
+            todos[index] = new_todo + '\n'
             write_todos(todos)
-            window['todos'].update(values=get_todos())
+            window['todos'].update(values=[i.strip('\n') for i in get_todos()])
         case 'todos':
-            window['todo'].update(value=values['todos'][0])
+            window['todo'].update(value=values['todos'][0].strip('\n'))
         case sg.WIN_CLOSED:
             break
 
