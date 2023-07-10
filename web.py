@@ -8,8 +8,13 @@ st.write('This app is to increase your productivity.')
 
 todos = get_todos()
 
-for todo in todos:
-    st.checkbox(todo)
+for index, todo in enumerate(todos):
+    checkbox = st.checkbox(todo, key=todo)
+    if checkbox:
+        todos.pop(index)
+        write_todos(todos)
+        del st.session_state[todo]
+        st.experimental_rerun()
 
 
 def add_todo():
