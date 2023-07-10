@@ -35,6 +35,6 @@ while True:
         meters = feet_inches_to_meters(feet, inches)
         window['output_text'].update(value=f"{'{:.2f}'.format(round(meters, 2))}m", text_color="white")
     except ValueError:
-        window['output_text'].update(value='Invalid values')
+        sg.popup('Please provide two numbers.')
 
 window.close()
