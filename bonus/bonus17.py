@@ -9,25 +9,28 @@ label2 = sg.Text('Select destination folder:')
 input2 = sg.Input()
 choose_button2 = sg.FolderBrowse('Choose', key='folder')
 
-compress_button = sg.Button('Extract')
+extract_button = sg.Button('Extract')
 output_label = sg.Text(key="output")
+
+col1 = sg.Column([[label1], [label2]])
+col2 = sg.Column([[input1], [input2]])
+col3 = sg.Column([[choose_button1], [choose_button2]])
 
 window = sg.Window('Archive Extractor',
                    layout=[
-                       [label1, input1, choose_button1],
-                       [label2, input2, choose_button2],
-                       [compress_button, output_label]
+                       [col1, col2, col3],
+                       [extract_button, output_label]
                    ])
 
 while True:
     event, values = window.read()
+    if event == sg.WIN_CLOSED:
+        break
+
     filepath = values['archive']
     folder = values['folder']
     extract_archive(filepath, folder)
     window['output'].update(value='Extraction completed!')
-
-    if event == sg.WIN_CLOSED:
-        break
 
 
 window.close()
